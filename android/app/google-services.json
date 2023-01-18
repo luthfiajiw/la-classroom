@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "659543137345",
+    "project_id": "la-classroom",
+    "storage_bucket": "la-classroom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659543137345:android:b69c5d7497ab2177f53ac0",
+        "android_client_info": {
+          "package_name": "com.example.laclassroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659543137345-a3rcpjf3pctn8h5h6kb7umvuhaojbl72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuzBzHG9xTiArHi1Qccnh4TjRfGr75yYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "659543137345-a3rcpjf3pctn8h5h6kb7umvuhaojbl72.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
