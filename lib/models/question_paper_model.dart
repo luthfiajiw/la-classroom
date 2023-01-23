@@ -11,7 +11,7 @@ class Paper {
   @JsonKey(name: "Description")
   String? description;
   @JsonKey(name: "time_seconds")
-  String? timeSeconds;
+  int? timeSeconds;
   List<Question>? questions;
 
   Paper({
@@ -31,11 +31,14 @@ class Paper {
 class Question {
   String? id;
   String? question;
+  @JsonKey(name: "correct_answer")
+  String? correctAnswer;
   List<Answer>? answers;
 
   Question({
     this.id,
     this.question,
+    this.correctAnswer,
     List<Answer>? answer
   }) : answers = answer ?? <Answer>[];
 

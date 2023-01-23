@@ -14,9 +14,6 @@ class _DataUploaderViewState extends State<DataUploaderView> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<DataUploaderController>(context, listen: false).uploadData();
-    });
   }
 
   @override
