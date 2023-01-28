@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laclassroom/utils/routes/route_paths.dart';
+import 'package:laclassroom/utils/themes/palette.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
+        decoration: BoxDecoration(gradient: mainGradient(context)),
         child: Image.asset(
           "assets/images/app_splash_logo.png",
           width: 125,
