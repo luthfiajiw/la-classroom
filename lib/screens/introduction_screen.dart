@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laclassroom/utils/routes/route_paths.dart';
 import 'package:laclassroom/utils/themes/palette.dart';
 
 class IntroductionScreen extends StatelessWidget {
@@ -31,7 +32,9 @@ class IntroductionScreen extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed(RoutePaths.home);
+              },
               icon: const Icon(Icons.arrow_forward_rounded)
             )
           ],

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:laclassroom/models/question_paper_model.dart';
+import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/utils/firebase_refs.dart';
 
 class DataUploaderController extends ChangeNotifier {

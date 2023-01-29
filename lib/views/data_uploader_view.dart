@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:laclassroom/controllers/question_paper/data_uploader_controller.dart';
-import 'package:provider/provider.dart';
 
 class DataUploaderView extends StatefulWidget {
   const DataUploaderView({super.key});
