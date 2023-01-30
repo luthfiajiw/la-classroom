@@ -33,7 +33,7 @@ class IntroductionScreen extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(RoutePaths.home);
+                Navigator.of(context).pushNamed(RoutePaths.home);
               },
               icon: const Icon(Icons.arrow_forward_rounded)
             )

@@ -1,6 +1,5 @@
 import 'package:firebase_storage/firebase_storage.dart';
-
-Reference get firebaseStorage => FirebaseStorage.instance.ref();
+import 'package:laclassroom/utils/firebase_refs.dart';
 
 class FirebaseStorageRepository {
   Future<String?> getImage(String? imgName) async {

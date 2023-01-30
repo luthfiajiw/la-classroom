@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/repositories/firebase/firebase_storage_repository.dart';
+import 'package:laclassroom/utils/firebase_refs.dart';
 
 class QuestionPaperController extends ChangeNotifier {
   final FirebaseStorageRepository firebaseStorageRepository;
@@ -8,22 +11,20 @@ class QuestionPaperController extends ChangeNotifier {
     this.firebaseStorageRepository
   );
 
-  final List<String> _imgsUrl = [];
+  final List<Paper> _papers = [];
 
-  List<String> get imgsUrl => _imgsUrl;
+  List<Paper> get papers => _papers;
 
   Future<void> getAllPapers() async {
-    List<String> imgName = [
-      "biology",
-      "chemistry",
-      "maths",
-      "physics"
-    ];
-
     try {
-      for (var img in imgName) {
-        String? imgUrl = await firebaseStorageRepository.getImage(img);
-        _imgsUrl.add(imgUrl!);
+      QuerySnapshot<Map<String, dynamic>> data = await paperRef.get();
+      final paperList = data.docs.map((paper) => Paper.fromJson(paper.data())).toList();
+
+      for (var paper in paperList) {
+        String? imgUrl = await firebaseStorageRepository.getImage(paper.title!.toLowerCase());
+        paper.imageUrl = imgUrl;
+
+        _papers.add(paper);
         notifyListeners();
       }
     } catch (e) {

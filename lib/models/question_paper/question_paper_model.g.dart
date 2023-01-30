@@ -12,6 +12,7 @@ Paper _$PaperFromJson(Map<String, dynamic> json) => Paper(
       imageUrl: json['image_url'] as String?,
       description: json['Description'] as String?,
       timeSeconds: json['time_seconds'] as int?,
+      questionsCount: json['questions_count'] as int?,
       questions: (json['questions'] as List<dynamic>?)
           ?.map((e) => Question.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -23,6 +24,7 @@ Map<String, dynamic> _$PaperToJson(Paper instance) => <String, dynamic>{
       'image_url': instance.imageUrl,
       'Description': instance.description,
       'time_seconds': instance.timeSeconds,
+      'questions_count': instance.questionsCount,
       'questions': instance.questions?.map((e) => e.toJson()).toList(),
     };
 

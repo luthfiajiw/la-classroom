@@ -12,6 +12,8 @@ class Paper {
   String? description;
   @JsonKey(name: "time_seconds")
   int? timeSeconds;
+  @JsonKey(name: "questions_count")
+  int? questionsCount;
   List<Question>? questions;
 
   Paper({
@@ -20,10 +22,12 @@ class Paper {
     this.imageUrl,
     this.description,
     this.timeSeconds,
+    this.questionsCount,
     List<Question>? questions
   }) : questions = questions ?? <Question>[];
 
   factory Paper.fromJson(Map<String, dynamic> json) => _$PaperFromJson(json);
+  
   Map<String, dynamic> toJson() => _$PaperToJson(this);
 }
 
