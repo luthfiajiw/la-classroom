@@ -27,6 +27,7 @@ class DataUploaderController extends ChangeNotifier {
 
     for (var paper in papers) {
       batch.set(paperRef.doc(paper.id), {
+        "id": paper.id,
         "title": paper.title,
         "image_url": paper.imageUrl,
         "Description": paper.description,
@@ -37,12 +38,14 @@ class DataUploaderController extends ChangeNotifier {
       for (var question in paper.questions!) {
         final questionDoc = questionRef(paperId: paper.id!, questionId: question.id!);
         batch.set(questionDoc, {
+          "id": question.id,
           "question": question.question,
           "correct_answer": question.correctAnswer
         });
 
         for (var answer in question.answers!) {
           batch.set(questionDoc.collection("answers").doc(answer.identifier), {
+            "identifier": answer.identifier,
             "Answer": answer.answer
           });
         }

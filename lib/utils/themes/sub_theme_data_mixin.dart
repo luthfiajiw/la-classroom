@@ -6,7 +6,7 @@ mixin SubThemeData {
   
   TextTheme getTextTheme() {
     return GoogleFonts.quicksandTextTheme(const TextTheme(
-      bodyText1: TextStyle(fontWeight: FontWeight.w500),
+      bodyText1: TextStyle(fontWeight: FontWeight.w500,),
       bodyText2: TextStyle(fontWeight: FontWeight.w500),
     ));
   }

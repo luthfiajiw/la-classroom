@@ -31,3 +31,11 @@ LinearGradient mainGradient(BuildContext context) {
     return mainGradientLight;
   }
 }
+
+Color customScaffoldColor(BuildContext context) {
+  if (UIParameters.isDarkMode(context)) {
+    return const Color(0xFF2e3c62);
+  } else {
+    return const Color.fromARGB(255, 240, 237, 255);
+  }
+}
