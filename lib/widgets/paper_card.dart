@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/widgets/icon_text.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class PaperCard extends StatelessWidget {
   final Paper paper;
@@ -10,7 +11,6 @@ class PaperCard extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -27,8 +27,8 @@ class PaperCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
                     color: Theme.of(context).primaryColor.withOpacity(.2),
-                    width: screenWidth * .10,
-                    height: screenWidth * .10,
+                    width: getValueForScreenType(context: context, mobile: 45, tablet: 70),
+                    height: getValueForScreenType(context: context, mobile: 45, tablet: 70),
                     child: CachedNetworkImage(
                       imageUrl: paper.imageUrl!,
                       placeholder: (context, url) {
@@ -51,7 +51,7 @@ class PaperCard extends StatelessWidget {
                         paper.title!,
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
-                          fontSize: screenWidth * .03,
+                          fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18),
                           fontWeight: FontWeight.w800
                         ),
                       ),
@@ -60,7 +60,7 @@ class PaperCard extends StatelessWidget {
                         child: Text(
                           paper.description!,
                           style: TextStyle(
-                            fontSize: screenWidth * .02
+                            fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
                           ),
                         ),
                       ),
@@ -75,11 +75,11 @@ class PaperCard extends StatelessWidget {
                               '${paper.questionsCount} questions',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
-                                fontSize: screenWidth * .02
+                                fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
                               ),
                             )
                           ),
-                          const SizedBox(width: 16,),
+                          SizedBox(width: getValueForScreenType<double>(context: context, mobile: 8, tablet: 16),),
                           IconText(
                             icon: Icon(
                               Icons.timer_outlined,
@@ -89,7 +89,7 @@ class PaperCard extends StatelessWidget {
                               '${(paper.timeSeconds! / 60).ceil()} mins',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
-                                fontSize: screenWidth * .02
+                                fontSize: getValueForScreenType<double>(context: context, mobile: 14, tablet: 16)
                               ),
                             )
                           ),
@@ -107,7 +107,10 @@ class PaperCard extends StatelessWidget {
             right: 0,
             child: GestureDetector(
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                padding: EdgeInsets.symmetric(
+                  vertical: getValueForScreenType<double>(context: context, mobile: 6, tablet: 12),
+                  horizontal: getValueForScreenType<double>(context: context, mobile: 10, tablet: 20)
+                ),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: const BorderRadius.only(

@@ -5,6 +5,7 @@ import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/widgets/content_area.dart';
 import 'package:laclassroom/widgets/paper_card.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,10 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, value, child) {
             return ListView.separated(
               shrinkWrap: true,
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(getValueForScreenType<double>(context: context, mobile: 0, tablet: 16)),
               itemCount: value.papers.length,
               separatorBuilder: (context, index) {
-                return const SizedBox(height: 20,);
+                return SizedBox(height: getValueForScreenType<double>(context: context, mobile: 16, tablet: 20),);
               },
               itemBuilder: (context, index) {
                 Paper paper = value.papers[index];
