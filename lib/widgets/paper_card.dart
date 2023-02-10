@@ -68,14 +68,15 @@ class PaperCard extends StatelessWidget {
                         children: [
                           IconText(
                             icon: Icon(
-                              Icons.help_outline_rounded,
+                              Icons.list_alt_rounded,
+                              size: getValueForScreenType(context: context, mobile: 20, tablet: 22),
                               color: Theme.of(context).primaryColor,
                             ),
                             text: Text(
                               '${paper.questionsCount} questions',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
-                                fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
+                                fontSize: getValueForScreenType(context: context, mobile: 12, tablet: 14)
                               ),
                             )
                           ),
@@ -83,13 +84,14 @@ class PaperCard extends StatelessWidget {
                           IconText(
                             icon: Icon(
                               Icons.timer_outlined,
+                              size: getValueForScreenType(context: context, mobile: 20, tablet: 22),
                               color: Theme.of(context).primaryColor,
                             ),
                             text: Text(
                               '${(paper.timeSeconds! / 60).ceil()} mins',
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
-                                fontSize: getValueForScreenType<double>(context: context, mobile: 14, tablet: 16)
+                                fontSize: getValueForScreenType<double>(context: context, mobile: 12, tablet: 14)
                               ),
                             )
                           ),

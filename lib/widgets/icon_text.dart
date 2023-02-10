@@ -14,7 +14,7 @@ class IconText extends StatelessWidget {
       children: [
         icon,
         const SizedBox(
-          width: 6,
+          width: 4,
         ),
         text
       ],
