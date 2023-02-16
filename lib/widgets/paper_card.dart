@@ -28,7 +28,7 @@ class PaperCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: Theme.of(context).primaryColor.withOpacity(.2),
+                    color: UIParameters.isDarkMode(context) ? Colors.white38 : Theme.of(context).primaryColor.withOpacity(.2),
                     width: getValueForScreenType(context: context, mobile: 45, tablet: 70),
                     height: getValueForScreenType(context: context, mobile: 45, tablet: 70),
                     child: CachedNetworkImage(

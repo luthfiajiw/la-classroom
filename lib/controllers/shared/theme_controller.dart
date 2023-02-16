@@ -8,7 +8,6 @@ class ThemeController extends ChangeNotifier {
   ThemeData get activeTheme => _activeTheme;
 
   void toggleTheme(bool isDarkMode) {
-    print(isDarkMode);
     if (isDarkMode) {
       _activeTheme = DarkTheme().buildDarkTheme();
     } else {
