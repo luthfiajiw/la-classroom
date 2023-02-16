@@ -6,6 +6,7 @@ import 'package:laclassroom/utils/injection.dart';
 import 'package:provider/provider.dart';
 
 import 'app.dart';
+import 'controllers/shared/drawer_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeController()),
         ChangeNotifierProvider(create: (_) => Injection.provideQuestionPaperController()),
+        ChangeNotifierProvider(create: (_) => Injection.provideDrawerZoomController()),
       ],
       child: const App()
     )

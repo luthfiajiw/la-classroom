@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
+import 'package:laclassroom/utils/themes/dark_theme.dart';
+import 'package:laclassroom/utils/themes/ui_parameters.dart';
 import 'package:laclassroom/widgets/icon_text.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -33,7 +35,7 @@ class PaperCard extends StatelessWidget {
                       imageUrl: paper.imageUrl!,
                       placeholder: (context, url) {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(strokeWidth: 2,),
                         );
                       },
                       errorWidget: (context, url, error) {
@@ -50,7 +52,7 @@ class PaperCard extends StatelessWidget {
                       Text(
                         paper.title!,
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: UIParameters.isDarkMode(context) ? primaryDarkColorDark : Theme.of(context).primaryColor,
                           fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18),
                           fontWeight: FontWeight.w800
                         ),
@@ -70,12 +72,12 @@ class PaperCard extends StatelessWidget {
                             icon: Icon(
                               Icons.list_alt_rounded,
                               size: getValueForScreenType(context: context, mobile: 20, tablet: 22),
-                              color: Theme.of(context).primaryColor,
+                              color: UIParameters.isDarkMode(context) ? primaryDarkColorDark : Theme.of(context).primaryColor,
                             ),
                             text: Text(
                               '${paper.questionsCount} questions',
                               style: TextStyle(
-                                color: Theme.of(context).primaryColor,
+                                color: UIParameters.isDarkMode(context) ? primaryDarkColorDark : Theme.of(context).primaryColor,
                                 fontSize: getValueForScreenType(context: context, mobile: 12, tablet: 14)
                               ),
                             )
@@ -85,12 +87,12 @@ class PaperCard extends StatelessWidget {
                             icon: Icon(
                               Icons.timer_outlined,
                               size: getValueForScreenType(context: context, mobile: 20, tablet: 22),
-                              color: Theme.of(context).primaryColor,
+                              color: UIParameters.isDarkMode(context) ? primaryDarkColorDark : Theme.of(context).primaryColor,
                             ),
                             text: Text(
                               '${(paper.timeSeconds! / 60).ceil()} mins',
                               style: TextStyle(
-                                color: Theme.of(context).primaryColor,
+                                color: UIParameters.isDarkMode(context) ? primaryDarkColorDark : Theme.of(context).primaryColor,
                                 fontSize: getValueForScreenType<double>(context: context, mobile: 12, tablet: 14)
                               ),
                             )
@@ -114,7 +116,7 @@ class PaperCard extends StatelessWidget {
                   horizontal: getValueForScreenType<double>(context: context, mobile: 10, tablet: 20)
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: UIParameters.isDarkMode(context) ? primaryDarkColorDark : Theme.of(context).primaryColor,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),

@@ -13,7 +13,7 @@ class App extends StatelessWidget {
       builder: (context, value, child) {
         return MaterialApp(
           title: "LA Classroom",
-          theme: context.read<ThemeController>().lightTheme,
+          theme: context.read<ThemeController>().activeTheme,
           initialRoute: RoutePaths.splash,
           onGenerateRoute: Routes.generate,
         );
