@@ -75,9 +75,10 @@ class MenuScreen extends StatelessWidget {
                           clipBehavior: Clip.hardEdge,
                           child: IconButton(
                             onPressed: onClose,
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.close_rounded,
                               color: Colors.white,
+                              size: getValueForScreenType(context: context, mobile: 24, tablet: 26),
                             ),
                           ),
                         )
@@ -97,13 +98,14 @@ class MenuScreen extends StatelessWidget {
                           leading: Icon(
                             menu.icon,
                             color: Colors.white,
+                            size: getValueForScreenType(context: context, mobile: 24, tablet: 26),
                           ),
                           title: Text(
                             menu.name,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w800,
-                              fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
+                              fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
                             ),
                           ),
                         ),
@@ -124,6 +126,7 @@ class MenuScreen extends StatelessWidget {
                             Icon(
                               UIParameters.isDarkMode(context) ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
                               color: Colors.white,
+                              size: getValueForScreenType(context: context, mobile: 24, tablet: 26),
                             ),
                             const SizedBox(width: 18,),
                             Switch(
@@ -141,16 +144,17 @@ class MenuScreen extends StatelessWidget {
                     child: ListTile(
                       onTap: () {},
                       contentPadding: const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
-                      leading: const Icon(
+                      leading: Icon(
                         Icons.logout_rounded,
                         color: Colors.white,
+                        size: getValueForScreenType(context: context, mobile: 24, tablet: 26),
                       ),
                       title: Text(
                         "Log Out",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
-                          fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
+                          fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
                         ),
                       ),
                     ),
