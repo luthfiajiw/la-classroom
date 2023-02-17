@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "659543137345-a3rcpjf3pctn8h5h6kb7umvuhaojbl72.apps.googleusercontent.com",
+          "client_id": "659543137345-4otrbdhk0sb8b729b2995kbfup15shvu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +27,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "659543137345-a3rcpjf3pctn8h5h6kb7umvuhaojbl72.apps.googleusercontent.com",
+              "client_id": "659543137345-4otrbdhk0sb8b729b2995kbfup15shvu.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "659543137345-skr0rjkgfhod441h0if46vbjgs9r958g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.laclassroom"
+              }
             }
           ]
         }
