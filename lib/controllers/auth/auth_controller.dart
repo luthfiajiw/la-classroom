@@ -4,32 +4,32 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:laclassroom/utils/firebase_refs.dart';
 
 class AuthController extends ChangeNotifier {
-  late FirebaseAuth auth;
-  late Stream<User?> authStateChanges;
-  late User? user;
+  late FirebaseAuth _auth;
+  late Stream<User?> _authStateChanges;
+  late User? _user;
   
   void initAuth() {
-    auth = FirebaseAuth.instance;
-    authStateChanges = auth.authStateChanges();
+    _auth = FirebaseAuth.instance;
+    _authStateChanges = _auth.authStateChanges();
 
-    authStateChanges.listen((event) {
-      user = event;
+    _authStateChanges.listen((event) {
+      _user = event;
     });
     notifyListeners();
   }
 
   Future signInWithGoogle() async {
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
+    final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
-      GoogleSignInAccount? account = await _googleSignIn.signIn();
+      GoogleSignInAccount? account = await googleSignIn.signIn();
       if (account != null) {
-        final _authAccount = await account.authentication;
-        final _credential = GoogleAuthProvider.credential(
-          idToken: _authAccount.idToken,
-          accessToken: _authAccount.accessToken,
+        final authAccount = await account.authentication;
+        final credential = GoogleAuthProvider.credential(
+          idToken: authAccount.idToken,
+          accessToken: authAccount.accessToken,
         );
 
-        await auth.signInWithCredential(_credential);
+        await _auth.signInWithCredential(credential);
         await saveUser(account);
       } 
     } on Exception catch(e) {
@@ -37,11 +37,15 @@ class AuthController extends ChangeNotifier {
     }
   }
   
-  saveUser(GoogleSignInAccount account) {
-    userRef.doc(account.email).set({
+  Future<void> saveUser(GoogleSignInAccount account) async {
+    await userRef.doc(account.email).set({
       "email": account.email,
       "name": account.displayName,
       "photoUrl": account.photoUrl
     });
+  }
+
+  bool isLoggedIn() {
+    return _auth.currentUser != null;
   }
 }

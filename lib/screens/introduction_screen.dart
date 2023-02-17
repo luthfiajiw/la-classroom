@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:laclassroom/controllers/auth/auth_controller.dart';
 import 'package:laclassroom/utils/routes/route_paths.dart';
 import 'package:laclassroom/utils/themes/palette.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class IntroductionScreen extends StatelessWidget {
@@ -32,11 +34,15 @@ class IntroductionScreen extends StatelessWidget {
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(RoutePaths.home);
-              },
-              icon: const Icon(Icons.arrow_forward_rounded)
+            Consumer<AuthController>(
+              builder: (context, auth, _) {
+                return IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed(auth.isLoggedIn() ? RoutePaths.home : RoutePaths.auth);
+                  },
+                  icon: const Icon(Icons.arrow_forward_rounded)
+                );
+              }
             )
           ],
         ),

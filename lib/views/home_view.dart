@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:laclassroom/controllers/question_paper/question_paper_controller.dart';
@@ -6,21 +5,20 @@ import 'package:laclassroom/controllers/shared/drawer_controller.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/screens/menu_screen.dart';
 import 'package:laclassroom/utils/themes/palette.dart';
-import 'package:laclassroom/utils/themes/ui_parameters.dart';
 import 'package:laclassroom/widgets/app_icons.dart';
 import 'package:laclassroom/widgets/content_area.dart';
 import 'package:laclassroom/widgets/paper_card.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     Future.microtask(() {

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:laclassroom/controllers/auth/auth_controller.dart';
 import 'package:laclassroom/controllers/shared/theme_controller.dart';
 import 'package:laclassroom/firebase_options.dart';
 import 'package:laclassroom/utils/injection.dart';
@@ -14,6 +15,7 @@ void main() async {
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeController()),
+        ChangeNotifierProvider(create: (_) => AuthController()),
         ChangeNotifierProvider(create: (_) => Injection.provideQuestionPaperController()),
         ChangeNotifierProvider(create: (_) => Injection.provideDrawerZoomController()),
       ],

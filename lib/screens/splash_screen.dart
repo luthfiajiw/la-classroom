@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 2000), () {
-      Provider.of<AuthController>(context).initAuth();
+      Provider.of<AuthController>(context, listen: false).initAuth();
       Navigator.of(context).pushReplacementNamed(RoutePaths.introduction);
     });
     super.initState();
