@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:laclassroom/controllers/auth/auth_controller.dart';
 import 'package:laclassroom/utils/themes/dark_theme.dart';
 import 'package:laclassroom/utils/themes/palette.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class AuthView extends StatelessWidget {
@@ -23,29 +25,31 @@ class AuthView extends StatelessWidget {
               right: 0,
               left: 0,
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 6),
+                margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4.5),
                 child: Material(
                   borderRadius: BorderRadius.circular(6),
-                  clipBehavior: Clip.hardEdge,
-                  child: InkWell(
-                    onTap: (){},
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset("assets/icons/google.svg", width: 16, height: 16,),
-                          const SizedBox(width: 16,),
-                          Text(
-                            "Sign in with Google",
-                            style: TextStyle(
-                              color: primaryDarkColorDark,
-                              fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18),
-                            ),
+                  child: Consumer<AuthController>(
+                    builder: (context, auth, _) {
+                      return InkWell(
+                        onTap: () => auth.signInWithGoogle(context),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/icons/google.svg", width: 16, height: 16,),
+                              const SizedBox(width: 16,),
+                              Text(
+                                "Sign in with Google",
+                                style: TextStyle(
+                                  fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    }
                   ),
                 ),
               ),

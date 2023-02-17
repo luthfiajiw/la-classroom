@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laclassroom/controllers/auth/auth_controller.dart';
 import 'package:laclassroom/controllers/shared/theme_controller.dart';
 import 'package:laclassroom/utils/themes/palette.dart';
 import 'package:laclassroom/utils/themes/ui_parameters.dart';
@@ -34,56 +35,62 @@ class MenuScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8, left: 16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.white.withOpacity(.6),
-                          radius: getValueForScreenType(context: context, mobile: 30, tablet: 35),
-                          backgroundImage: NetworkImage("https://lh3.googleusercontent.com/a/AEdFTp6YfhS154HoOhdnhpM1cdxsHeSjv5kFOmNLyLVwfA=s192-c-mo")
-                        ),
-                        const SizedBox(width: 12,),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Luthfi Aji W",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
-                                ),
-                              ),
-                              const SizedBox(height: 4,),
-                              Text(
-                                "luthfi.ajiw@gmail.com",
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Material(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(50),
-                          clipBehavior: Clip.hardEdge,
-                          child: IconButton(
-                            onPressed: onClose,
-                            icon: Icon(
-                              Icons.close_rounded,
-                              color: Colors.white,
-                              size: getValueForScreenType(context: context, mobile: 24, tablet: 26),
+                  Consumer<AuthController>(
+                    builder: (context, value, _) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8, left: 16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.white.withOpacity(.9),
+                              radius: getValueForScreenType(context: context, mobile: 30, tablet: 35),
+                              backgroundImage: value.auth.currentUser?.photoURL == null
+                              ? const NetworkImage("https://cdn-icons-png.flaticon.com/512/2102/2102647.png")
+                              : NetworkImage(value.auth.currentUser!.photoURL!)
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                            const SizedBox(width: 12,),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    value.auth.currentUser?.displayName ?? "-",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4,),
+                                  Text(
+                                    value.auth.currentUser?.email ?? "-",
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Material(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(50),
+                              clipBehavior: Clip.hardEdge,
+                              child: IconButton(
+                                onPressed: onClose,
+                                icon: Icon(
+                                  Icons.close_rounded,
+                                  color: Colors.white,
+                                  size: getValueForScreenType(context: context, mobile: 24, tablet: 26),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }
                   ),
                   const SizedBox(height: 32,),
                   Column(
@@ -139,25 +146,29 @@ class MenuScreen extends StatelessWidget {
                       }
                     ),
                   ),
-                  Material(
-                    color: Colors.transparent,
-                    child: ListTile(
-                      onTap: () {},
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
-                      leading: Icon(
-                        Icons.logout_rounded,
-                        color: Colors.white,
-                        size: getValueForScreenType(context: context, mobile: 24, tablet: 26),
-                      ),
-                      title: Text(
-                        "Log Out",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                          fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                  Consumer<AuthController>(
+                    builder: (context, value, _) {
+                      return Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          onTap: () => value.signOut(context),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
+                          leading: Icon(
+                            Icons.logout_rounded,
+                            color: Colors.white,
+                            size: getValueForScreenType(context: context, mobile: 24, tablet: 26),
+                          ),
+                          title: Text(
+                            "Log Out",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                              fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }
                   ),
                 ]
               )
