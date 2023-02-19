@@ -3,4 +3,5 @@ class RoutePaths {
   static const String introduction = "/introduction";
   static const String home = "/home";
   static const String auth = "/auth";
+  static const String question = "/question";
 }

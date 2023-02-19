@@ -11,9 +11,10 @@ class QuestionPaperController extends ChangeNotifier {
     this.firebaseStorageRepository
   );
 
-  final List<Paper> _papers = [];
-
-  List<Paper> get papers => _papers;
+  late Question currentQuestion;
+  late Paper paper;
+  List<Paper> papers = [];
+  bool isLoading = false;
 
   Future<void> getAllPapers() async {
     try {
@@ -24,11 +25,46 @@ class QuestionPaperController extends ChangeNotifier {
         String? imgUrl = await firebaseStorageRepository.getImage(paper.title!.toLowerCase());
         paper.imageUrl = imgUrl;
 
-        _papers.add(paper);
+        papers.add(paper);
         notifyListeners();
       }
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<void> getQuestions(Paper paperArg) async {
+    paper = paperArg;
+    isLoading = true;
+    notifyListeners();
+    try {
+      final data = await paperRef.doc(paper.id).collection("questions").get();
+      
+      List<Question> questionList = data.docs.map((question) {
+        return Question.fromJson(question.data());
+      }).toList();
+
+      paper.questions = questionList;
+
+      for (var question in paper.questions!) {
+        final res = await paperRef.doc(paper.id)
+        .collection("questions")
+        .doc(question.id)
+        .collection("answers")
+        .get();
+
+        List<Answer> answerList = res.docs.map((e) => Answer.fromJson(e.data())).toList();
+        question.answers = answerList;
+      }
+
+      if (paper.questions!.isNotEmpty) {
+        currentQuestion = paper.questions![0];
+      }
+    } catch (e) {
+      rethrow;
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 }

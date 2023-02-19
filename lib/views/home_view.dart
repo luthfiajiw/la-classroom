@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:laclassroom/controllers/auth/auth_controller.dart';
 import 'package:laclassroom/controllers/question_paper/question_paper_controller.dart';
 import 'package:laclassroom/controllers/shared/drawer_controller.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/screens/menu_screen.dart';
+import 'package:laclassroom/utils/routes/route_paths.dart';
 import 'package:laclassroom/utils/themes/palette.dart';
 import 'package:laclassroom/widgets/app_icons.dart';
 import 'package:laclassroom/widgets/content_area.dart';
@@ -57,22 +59,19 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         InkWell(
                           onTap: () => drawer.toggleDrawer(),
-                          child: const Icon(AppIcons.menuDrawer, color: onSurfaceTextColor, size: 16,),
+                          child: const Icon(AppIcons.menuDrawer, color: onSurfaceTextColor, size: 14,),
                         ),
-                        const SizedBox(height: 22,),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(AppIcons.peace, color: onSurfaceTextColor, size: 16,),
-                            const SizedBox(width: 2,),
-                            Text(
-                              "Hello, Luthfi Aji W!",
+                        const SizedBox(height: 32,),
+                        Consumer<AuthController>(
+                          builder: (context, value, _) {
+                            return Text(
+                              "Hello, ${value.auth.currentUser?.displayName}!",
                               style: TextStyle(
                                 color: onSurfaceTextColor,
                                 fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
                               ),
-                            ),
-                          ],
+                            );
+                          }
                         ),
                         const SizedBox(height: 8,),
                         Text(
@@ -83,7 +82,7 @@ class _HomeViewState extends State<HomeView> {
                             fontSize: getValueForScreenType(context: context, mobile: 22, tablet: 24)
                           ),
                         ),
-                        const SizedBox(height: 16,)
+                        const SizedBox(height: 8,)
                       ],
                     ),
                   ),
@@ -101,7 +100,10 @@ class _HomeViewState extends State<HomeView> {
 
                                 return Column(
                                   children: [
-                                    PaperCard(paper: paper),
+                                    PaperCard(
+                                      paper: paper,
+                                      onTap: () => Navigator.of(context).pushNamed(RoutePaths.question, arguments: paper),
+                                    ),
                                     SizedBox(height: getValueForScreenType<double>(context: context, mobile: 16, tablet: 20),)
                                   ],
                                 );

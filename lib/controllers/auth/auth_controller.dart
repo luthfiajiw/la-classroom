@@ -30,8 +30,9 @@ class AuthController extends ChangeNotifier {
           accessToken: authAccount.accessToken,
         );
 
-        await auth.signInWithCredential(credential);
-        saveUser(context, account);
+        auth.signInWithCredential(credential).then((value) {
+          saveUser(context, account);
+        });
       } 
     } on Exception catch(e) {
       rethrow;
@@ -39,7 +40,9 @@ class AuthController extends ChangeNotifier {
   }
 
   void signOut(BuildContext context) {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
     auth.signOut();
+    googleSignIn.disconnect();
     Navigator.of(context).pushNamedAndRemoveUntil(RoutePaths.auth, (route) => false);
   }
   
