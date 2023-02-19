@@ -28,7 +28,7 @@ class QuestionShimmer extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(6)
+              borderRadius: BorderRadius.circular(4)
             ),
           ),
           Container(
@@ -37,7 +37,7 @@ class QuestionShimmer extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 24),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(6)
+              borderRadius: BorderRadius.circular(4)
             ),
           ),
           answer,

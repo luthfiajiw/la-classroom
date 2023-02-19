@@ -113,33 +113,54 @@ class _QuestionViewState extends State<QuestionView> {
                           conditionBuilder: (context) => !value.isLoading,
                           widgetBuilder: (context) {
                             return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  value.currentQuestion.question!,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
-                                  ),
-                                ),
-                                const SizedBox(height: 24,),
-                                ...value.currentQuestion.answers!.asMap().map((key, answer) => MapEntry(key, Padding(
-                                  padding: const EdgeInsets.only(bottom: 16),
-                                  child: MainButton(
-                                    onTap: () {},
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "${answer.identifier!}."
-                                        ),
-                                        const SizedBox(width: 8,),
-                                        Text(
-                                          answer.answer!
-                                        )
-                                      ],
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      value.currentQuestion.question!,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                                      ),
                                     ),
-                                  )
-                                ))).values.toList()
+                                    const SizedBox(height: 24,),
+                                    ...value.currentQuestion.answers!.asMap().map((key, answer) => MapEntry(key, Padding(
+                                      padding: EdgeInsets.only(bottom: getValueForScreenType(context: context, mobile: 16, tablet: 18)),
+                                      child: MainButton(
+                                        onTap: () {},
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "${answer.identifier!}."
+                                            ),
+                                            const SizedBox(width: 8,),
+                                            Text(
+                                              answer.answer!
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ))).values.toList()
+                                  ],
+                                ),
+
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: MainButton(
+                                    onTap: () {
+                                      
+                                    },
+                                    child: Text(
+                                      "Next",
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                                      ),
+                                    ),
+                                  ),
+                                )
                               ],
                             );
                           },

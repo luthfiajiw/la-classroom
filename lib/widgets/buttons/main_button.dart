@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class MainButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -22,7 +23,7 @@ class MainButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(getValueForScreenType(context: context, mobile: 16, tablet: 18)),
           child: child
         ),
       ),

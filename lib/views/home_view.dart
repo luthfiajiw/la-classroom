@@ -59,7 +59,11 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         InkWell(
                           onTap: () => drawer.toggleDrawer(),
-                          child: const Icon(AppIcons.menuDrawer, color: onSurfaceTextColor, size: 14,),
+                          child: Icon(
+                            AppIcons.menuDrawer,
+                            color: onSurfaceTextColor,
+                            size: getValueForScreenType(context: context, mobile: 14, tablet: 16),
+                          ),
                         ),
                         const SizedBox(height: 32,),
                         Consumer<AuthController>(
