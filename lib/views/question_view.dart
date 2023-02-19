@@ -1,12 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 import 'package:laclassroom/controllers/question_paper/question_paper_controller.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/widgets/background_question.dart';
 import 'package:laclassroom/widgets/buttons/main_button.dart';
 import 'package:laclassroom/widgets/content_area.dart';
+import 'package:laclassroom/widgets/shimmer/question_shimmer.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shimmer/shimmer.dart';
 
 class QuestionView extends StatefulWidget {
   final Paper paper;
@@ -72,7 +75,9 @@ class _QuestionViewState extends State<QuestionView> {
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "Q${value.currentQuestion.id![value.currentQuestion.id!.length - 1]}",
+                            value.isLoading
+                            ? ""
+                            : "Q${value.currentQuestion.id![value.currentQuestion.id!.length - 1]}",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
@@ -103,35 +108,43 @@ class _QuestionViewState extends State<QuestionView> {
                       width: double.infinity,
                       child: ContentArea(
                         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
-                        child: Column(
-                          children: [
-                            Text(
-                              value.currentQuestion.question!,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
-                              ),
-                            ),
-                            const SizedBox(height: 20,),
-                            ...value.currentQuestion.answers!.asMap().map((key, answer) => MapEntry(key, Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: MainButton(
-                                onTap: () {},
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "${answer.identifier!}."
-                                    ),
-                                    const SizedBox(width: 8,),
-                                    Text(
-                                      answer.answer!
-                                    )
-                                  ],
+                        child: Conditional.single(
+                          context: context,
+                          conditionBuilder: (context) => !value.isLoading,
+                          widgetBuilder: (context) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  value.currentQuestion.question!,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                                  ),
                                 ),
-                              )
-                            ))).values.toList()
-                          ],
-                        ),
+                                const SizedBox(height: 24,),
+                                ...value.currentQuestion.answers!.asMap().map((key, answer) => MapEntry(key, Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: MainButton(
+                                    onTap: () {},
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "${answer.identifier!}."
+                                        ),
+                                        const SizedBox(width: 8,),
+                                        Text(
+                                          answer.answer!
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ))).values.toList()
+                              ],
+                            );
+                          },
+                          fallbackBuilder: (context) => const QuestionShimmer(),
+                        )
                       ),
                     ),
                   ),

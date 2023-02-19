@@ -8,23 +8,42 @@ class QuestionShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     var answer = Container(
       width: double.infinity,
-      height: 50,
-      color: Theme.of(context).scaffoldBackgroundColor,
+      height: 46,
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(6)
+      ),
     );
 
     return Shimmer.fromColors(
-      baseColor: Colors.white,
-      highlightColor: Colors.blueGrey.withOpacity(.5),
+      baseColor: Theme.of(context).splashColor.withOpacity(.3),
+      highlightColor: Colors.white10,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Container(
+            width: 300,
+            height: 16,
+            margin: const EdgeInsets.only(bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(6)
+            ),
+          ),
+          Container(
+            width: 200,
+            height: 16,
+            margin: const EdgeInsets.only(bottom: 24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(6)
+            ),
+          ),
           answer,
-          const SizedBox(height: 16,),
           answer,
-          const SizedBox(height: 16,),
           answer,
-          const SizedBox(height: 16,),
-          answer,
-          const SizedBox(height: 16,),
+          answer
         ],
       ),
     );
