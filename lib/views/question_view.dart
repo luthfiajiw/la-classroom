@@ -11,7 +11,6 @@ import 'package:laclassroom/widgets/content_area.dart';
 import 'package:laclassroom/widgets/shimmer/question_shimmer.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:shimmer/shimmer.dart';
 
 class QuestionView extends StatefulWidget {
   final Paper paper;
@@ -29,6 +28,12 @@ class _QuestionViewState extends State<QuestionView> {
       return Provider.of<QuestionPaperController>(context, listen: false).getQuestions(widget.paper);
     });
     super.initState();
+  }
+
+  @override
+  void deactivate() {
+    Provider.of<QuestionPaperController>(context, listen: false).disposeValues();
+    super.deactivate();
   }
 
   @override
@@ -63,7 +68,7 @@ class _QuestionViewState extends State<QuestionView> {
                                 ),
                                 const SizedBox(width: 4,),
                                 Text(
-                                  "00:00",
+                                  value.countDown,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
@@ -153,7 +158,7 @@ class _QuestionViewState extends State<QuestionView> {
                                 ),
 
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Visibility(
                                       visible: value.currentQuestionIndex > 0,
@@ -169,15 +174,12 @@ class _QuestionViewState extends State<QuestionView> {
                                     ),
                                     Visibility(
                                       visible: value.currentQuestionIndex < value.paper.questions!.length - 1,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 16.0),
-                                        child: MainButton(
-                                          onTap: () => value.onChangeQuestion("next"),
-                                          child: Text(
-                                            "Next",
-                                            style: TextStyle(
-                                              fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
-                                            ),
+                                      child: MainButton(
+                                        onTap: () => value.onChangeQuestion("next"),
+                                        child: Text(
+                                          "Next",
+                                          style: TextStyle(
+                                            fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
                                           ),
                                         ),
                                       ),

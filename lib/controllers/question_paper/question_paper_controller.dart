@@ -1,20 +1,26 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:laclassroom/controllers/disposable_controller.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/repositories/firebase/firebase_storage_repository.dart';
 import 'package:laclassroom/utils/firebase_refs.dart';
 
-class QuestionPaperController extends ChangeNotifier {
+class QuestionPaperController extends DisposableController {
   final FirebaseStorageRepository firebaseStorageRepository;
 
   QuestionPaperController(
     this.firebaseStorageRepository
   );
 
+  late Timer _timer;
   late Paper paper;
   List<Paper> papers = [];
   int currentQuestionIndex = 0;
+  int secondsRemaining = 0;
   bool isLoading = false;
+  String countDown = "00:00";
 
   Future<void> getAllPapers() async {
     try {
@@ -60,6 +66,7 @@ class QuestionPaperController extends ChangeNotifier {
       if (paper.questions!.isNotEmpty) {
         currentQuestionIndex = 0;
       }
+      _startCountdown(paper.timeSeconds ?? 0);
     } catch (e) {
       rethrow;
     } finally {
@@ -68,17 +75,41 @@ class QuestionPaperController extends ChangeNotifier {
     }
   }
 
+  void _startCountdown(int seconds) {
+    const duration = Duration(seconds: 1);
+    secondsRemaining = seconds;
+    _timer = Timer.periodic(duration, (timer) {
+      if (secondsRemaining == 0) {
+        timer.cancel();
+      } else {
+        int minutes = secondsRemaining~/60;
+        int secs = secondsRemaining%60;
+
+        countDown = "${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}";
+        secondsRemaining--;
+        notifyListeners();
+      }
+    });
+    notifyListeners();
+  }
+
   void onSelectAnswer(String answer) {
     paper.questions![currentQuestionIndex].selectedAnswer = answer;
     notifyListeners();
   }
 
   void onChangeQuestion(String where) {
-    if (where == "next" && currentQuestionIndex < paper.questions!.length - 1) {
+    if (where == "next") {
       currentQuestionIndex += 1;
-    } else if (where == "prev" && currentQuestionIndex > 0) {
+    } else if (where == "prev") {
       currentQuestionIndex -= 1;
     }
     notifyListeners();
+  }
+  
+  @override
+  void disposeValues() {
+    _timer.cancel();
+    countDown = "00:00";
   }
 }
