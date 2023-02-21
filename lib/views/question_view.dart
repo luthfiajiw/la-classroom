@@ -152,19 +152,37 @@ class _QuestionViewState extends State<QuestionView> {
                                   ],
                                 ),
 
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: MainButton(
-                                    onTap: () {
-                                      
-                                    },
-                                    child: Text(
-                                      "Next",
-                                      style: TextStyle(
-                                        fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Visibility(
+                                      visible: value.currentQuestionIndex > 0,
+                                      child: MainButton(
+                                        onTap: () => value.onChangeQuestion("prev"),
+                                        child: Text(
+                                          "Prev",
+                                          style: TextStyle(
+                                            fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Visibility(
+                                      visible: value.currentQuestionIndex < value.paper.questions!.length - 1,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 16.0),
+                                        child: MainButton(
+                                          onTap: () => value.onChangeQuestion("next"),
+                                          child: Text(
+                                            "Next",
+                                            style: TextStyle(
+                                              fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 )
                               ],
                             );

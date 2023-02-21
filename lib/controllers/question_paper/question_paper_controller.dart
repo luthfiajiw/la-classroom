@@ -68,8 +68,17 @@ class QuestionPaperController extends ChangeNotifier {
     }
   }
 
-  onSelectAnswer(String answer) {
+  void onSelectAnswer(String answer) {
     paper.questions![currentQuestionIndex].selectedAnswer = answer;
+    notifyListeners();
+  }
+
+  void onChangeQuestion(String where) {
+    if (where == "next" && currentQuestionIndex < paper.questions!.length - 1) {
+      currentQuestionIndex += 1;
+    } else if (where == "prev" && currentQuestionIndex > 0) {
+      currentQuestionIndex -= 1;
+    }
     notifyListeners();
   }
 }
