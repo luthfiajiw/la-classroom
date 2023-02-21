@@ -37,12 +37,14 @@ class Question {
   String? question;
   @JsonKey(name: "correct_answer")
   String? correctAnswer;
+  String? selectedAnswer;
   List<Answer>? answers;
 
   Question({
     this.id,
     this.question,
     this.correctAnswer,
+    this.selectedAnswer,
     List<Answer>? answer
   }) : answers = answer ?? <Answer>[];
 

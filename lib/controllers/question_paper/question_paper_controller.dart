@@ -11,9 +11,9 @@ class QuestionPaperController extends ChangeNotifier {
     this.firebaseStorageRepository
   );
 
-  late Question currentQuestion;
   late Paper paper;
   List<Paper> papers = [];
+  int currentQuestionIndex = 0;
   bool isLoading = false;
 
   Future<void> getAllPapers() async {
@@ -58,7 +58,7 @@ class QuestionPaperController extends ChangeNotifier {
       }
 
       if (paper.questions!.isNotEmpty) {
-        currentQuestion = paper.questions![0];
+        currentQuestionIndex = 0;
       }
     } catch (e) {
       rethrow;
@@ -66,5 +66,10 @@ class QuestionPaperController extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  onSelectAnswer(String answer) {
+    paper.questions![currentQuestionIndex].selectedAnswer = answer;
+    notifyListeners();
   }
 }

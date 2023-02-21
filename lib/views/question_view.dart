@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 import 'package:laclassroom/controllers/question_paper/question_paper_controller.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
+import 'package:laclassroom/utils/themes/ui_parameters.dart';
 import 'package:laclassroom/widgets/background_question.dart';
+import 'package:laclassroom/widgets/buttons/answer_button.dart';
 import 'package:laclassroom/widgets/buttons/main_button.dart';
 import 'package:laclassroom/widgets/content_area.dart';
 import 'package:laclassroom/widgets/shimmer/question_shimmer.dart';
@@ -77,7 +79,7 @@ class _QuestionViewState extends State<QuestionView> {
                           child: Text(
                             value.isLoading
                             ? ""
-                            : "Q${value.currentQuestion.id![value.currentQuestion.id!.length - 1]}",
+                            : "Q${value.currentQuestionIndex + 1}",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: getValueForScreenType(context: context, mobile: 14, tablet: 16)
@@ -112,6 +114,8 @@ class _QuestionViewState extends State<QuestionView> {
                           context: context,
                           conditionBuilder: (context) => !value.isLoading,
                           widgetBuilder: (context) {
+                            Question question = value.paper.questions![value.currentQuestionIndex];
+
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -119,17 +123,19 @@ class _QuestionViewState extends State<QuestionView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      value.currentQuestion.question!,
+                                      question.question!,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
                                       ),
                                     ),
                                     const SizedBox(height: 24,),
-                                    ...value.currentQuestion.answers!.asMap().map((key, answer) => MapEntry(key, Padding(
+                                    ...question.answers!.asMap().map((key, answer) => MapEntry(key, Padding(
                                       padding: EdgeInsets.only(bottom: getValueForScreenType(context: context, mobile: 16, tablet: 18)),
-                                      child: MainButton(
-                                        onTap: () {},
+                                      child: AnswerButton(
+                                        isDarkMode: UIParameters.isDarkMode(context),
+                                        isSelected: question.selectedAnswer == answer.identifier,
+                                        onTap: () => value.onSelectAnswer(answer.identifier!),
                                         child: Row(
                                           children: [
                                             Text(
@@ -155,7 +161,6 @@ class _QuestionViewState extends State<QuestionView> {
                                     child: Text(
                                       "Next",
                                       style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
                                         fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
                                       ),
                                     ),

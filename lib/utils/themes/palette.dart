@@ -34,7 +34,7 @@ LinearGradient mainGradient(BuildContext context) {
 
 Color customScaffoldColor(BuildContext context) {
   if (UIParameters.isDarkMode(context)) {
-    return primaryDarkColorDark.withOpacity(.5);
+    return primaryDarkColorDark.withOpacity(.7);
   } else {
     return const Color.fromARGB(255, 240, 237, 255);
   }
