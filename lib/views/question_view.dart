@@ -119,7 +119,7 @@ class _QuestionViewState extends State<QuestionView> {
                           context: context,
                           conditionBuilder: (context) => !value.isLoading,
                           widgetBuilder: (context) {
-                            Question question = value.paper.questions![value.currentQuestionIndex];
+                            Question question = value.questions[value.currentQuestionIndex];
 
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,15 +172,20 @@ class _QuestionViewState extends State<QuestionView> {
                                         ),
                                       ),
                                     ),
-                                    Visibility(
-                                      visible: value.currentQuestionIndex < value.paper.questions!.length - 1,
-                                      child: MainButton(
-                                        onTap: () => value.onChangeQuestion("next"),
-                                        child: Text(
-                                          "Next",
-                                          style: TextStyle(
-                                            fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
-                                          ),
+                                    MainButton(
+                                      onTap: () {
+                                        if (value.currentQuestionIndex == value.questions.length - 1) {
+                                          value.onSubmitAnswers();
+                                        } else {
+                                          value.onChangeQuestion("next");
+                                        }
+                                      },
+                                      child: Text(
+                                        value.currentQuestionIndex == value.questions.length - 1
+                                        ? "Complete"
+                                        : "Next",
+                                        style: TextStyle(
+                                          fontSize: getValueForScreenType(context: context, mobile: 16, tablet: 18)
                                         ),
                                       ),
                                     ),

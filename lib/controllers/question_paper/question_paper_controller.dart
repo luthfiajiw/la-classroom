@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:laclassroom/controllers/disposable_controller.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/repositories/firebase/firebase_storage_repository.dart';
@@ -15,12 +14,25 @@ class QuestionPaperController extends DisposableController {
   );
 
   late Timer _timer;
-  late Paper paper;
+  late Paper _paper;
   List<Paper> papers = [];
   int currentQuestionIndex = 0;
   int secondsRemaining = 0;
   bool isLoading = false;
   String countDown = "00:00";
+
+  List<Question> get questions => _paper.questions!;
+
+  int get correctAnswerCount => _paper.questions!
+    .where((e) => e.correctAnswer == e.selectedAnswer)
+    .toList()
+    .length;
+  
+  num get points {
+    num points = (correctAnswerCount * 2);
+
+    return points;
+  }
 
   Future<void> getAllPapers() async {
     try {
@@ -40,20 +52,20 @@ class QuestionPaperController extends DisposableController {
   }
 
   Future<void> getQuestions(Paper paperArg) async {
-    paper = paperArg;
+    _paper = paperArg;
     isLoading = true;
     notifyListeners();
     try {
-      final data = await paperRef.doc(paper.id).collection("questions").get();
+      final data = await paperRef.doc(_paper.id).collection("questions").get();
       
       List<Question> questionList = data.docs.map((question) {
         return Question.fromJson(question.data());
       }).toList();
 
-      paper.questions = questionList;
+      _paper.questions = questionList;
 
-      for (var question in paper.questions!) {
-        final res = await paperRef.doc(paper.id)
+      for (var question in _paper.questions!) {
+        final res = await paperRef.doc(_paper.id)
         .collection("questions")
         .doc(question.id)
         .collection("answers")
@@ -63,10 +75,10 @@ class QuestionPaperController extends DisposableController {
         question.answers = answerList;
       }
 
-      if (paper.questions!.isNotEmpty) {
+      if (_paper.questions!.isNotEmpty) {
         currentQuestionIndex = 0;
       }
-      _startCountdown(paper.timeSeconds ?? 0);
+      _startCountdown(_paper.timeSeconds ?? 0);
     } catch (e) {
       rethrow;
     } finally {
@@ -94,7 +106,7 @@ class QuestionPaperController extends DisposableController {
   }
 
   void onSelectAnswer(String answer) {
-    paper.questions![currentQuestionIndex].selectedAnswer = answer;
+    _paper.questions![currentQuestionIndex].selectedAnswer = answer;
     notifyListeners();
   }
 
@@ -105,6 +117,11 @@ class QuestionPaperController extends DisposableController {
       currentQuestionIndex -= 1;
     }
     notifyListeners();
+  }
+
+  void onSubmitAnswers() {
+    print("POINTS $points");
+    print("CORRECT $correctAnswerCount");
   }
   
   @override
