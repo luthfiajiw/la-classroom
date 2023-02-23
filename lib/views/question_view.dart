@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 import 'package:laclassroom/controllers/question_paper/question_paper_controller.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
+import 'package:laclassroom/utils/routes/route_paths.dart';
 import 'package:laclassroom/utils/themes/ui_parameters.dart';
 import 'package:laclassroom/widgets/background_question.dart';
 import 'package:laclassroom/widgets/buttons/answer_button.dart';
@@ -173,9 +174,13 @@ class _QuestionViewState extends State<QuestionView> {
                                       ),
                                     ),
                                     MainButton(
-                                      onTap: () {
+                                      onTap: () async {
                                         if (value.currentQuestionIndex == value.questions.length - 1) {
-                                          value.onSubmitAnswers();
+                                          await value.onSubmitAnswers();
+
+                                          if (mounted) {
+                                            Navigator.of(context).pushReplacementNamed(RoutePaths.home);
+                                          }
                                         } else {
                                           value.onChangeQuestion("next");
                                         }

@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:laclassroom/controllers/disposable_controller.dart';
 import 'package:laclassroom/models/question_paper/question_paper_model.dart';
 import 'package:laclassroom/repositories/firebase/firebase_storage_repository.dart';
+import 'package:laclassroom/utils/const/storage_key.dart';
 import 'package:laclassroom/utils/firebase_refs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuestionPaperController extends DisposableController {
   final FirebaseStorageRepository firebaseStorageRepository;
@@ -19,6 +23,7 @@ class QuestionPaperController extends DisposableController {
   int currentQuestionIndex = 0;
   int secondsRemaining = 0;
   bool isLoading = false;
+  bool isSubmitting = false;
   String countDown = "00:00";
 
   List<Question> get questions => _paper.questions!;
@@ -119,9 +124,24 @@ class QuestionPaperController extends DisposableController {
     notifyListeners();
   }
 
-  void onSubmitAnswers() {
-    print("POINTS $points");
-    print("CORRECT $correctAnswerCount");
+  Future<void> onSubmitAnswers() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Map<String, dynamic> user = jsonDecode(prefs.getString(StorageKey.user)!);
+      isSubmitting = true;
+      notifyListeners();
+
+      await paperLeaderboardRef(_paper.id!, user["email"])
+        .set({
+          "user": user,
+          "points": points
+        });
+    } catch (e) {
+      rethrow;
+    } finally {
+      isSubmitting = false;
+      notifyListeners();
+    }
   }
   
   @override

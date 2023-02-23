@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:laclassroom/utils/const/storage_key.dart';
 import 'package:laclassroom/utils/firebase_refs.dart';
 import 'package:laclassroom/utils/routes/route_paths.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends ChangeNotifier {
   late FirebaseAuth auth;
@@ -46,12 +50,20 @@ class AuthController extends ChangeNotifier {
     Navigator.of(context).pushNamedAndRemoveUntil(RoutePaths.auth, (route) => false);
   }
   
-  void saveUser(BuildContext context, GoogleSignInAccount account) {
-    userRef.doc(account.email).set({
+  void saveUser(BuildContext context, GoogleSignInAccount account) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    Map<String, dynamic> data = {
       "email": account.email,
       "name": account.displayName,
       "photoUrl": account.photoUrl
-    }).then((value) => Navigator.of(context).pushNamedAndRemoveUntil(RoutePaths.home, (route) => false));
+    };
+
+    userRef.doc(account.email).set(data)
+      .then((value) {
+        prefs.setString(StorageKey.user, jsonEncode(data));
+        Navigator.of(context).pushNamedAndRemoveUntil(RoutePaths.home, (route) => false);
+      });
   }
 
   bool isLoggedIn() {
